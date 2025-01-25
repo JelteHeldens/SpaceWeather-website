@@ -1,4 +1,5 @@
-let url = 'https://api.nasa.gov/insight_weather/?api_key=&feedtype=json&ver=1.0';
+//
+let url = 'https://api.nasa.gov/insight_weather/?api_key=XXXX&feedtype=json&ver=1.0';
 
 function loadAPI(){
 	fetch(url)
