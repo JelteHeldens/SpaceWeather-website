@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Space Weather</title>
+		<link rel="icon" type="image/x-icon" href="icon.png">
+		<link rel="stylesheet" href="style.css">
+		<script type="importmap">
+			{
+				"imports": {
+				"three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+				"three/addons/": "https://unpkg.com/three@0.159.0/examples/jsm/"
+				}
+			}
+		</script>
+		<script src="api.js"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@100..900&display=swap" rel="stylesheet">
+	</head>
+	<body onload="loadAPI()">
+		<canvas id="canvas"></canvas>
+		<div class="grid">
+			<div class="title">
+				<a>MARS<br>WEATHER</a>
+			</div>
+			<div class="description">
+				<a>Average atmospheric temperature:</a>
+				<a id="at">NA</a>
+			</div>
+		</div>
+		<script type="module" src="/main.js"></script>
+	</body>
+</html>
