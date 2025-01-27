@@ -64,3 +64,52 @@ body{
 	grid-row: 5/8;
 	font-size: 32px;
 }
+
+.topLayer{
+	color: white;
+	position: relative;
+	z-index: 99;
+}
+#welcomeLayer{
+	position: relative;
+	text-align: center;
+	font-family: "Big Shoulders Stencil Text";
+	font-size: 350%;
+}
+.welcomeDescription{
+	position: fixed;
+	font-family: "Sans-serif";
+	font-size: 80%;
+	bottom: 0;
+	right: 0;
+}
+#homeButton{
+	display: inline-block;
+}
+.homeButton{
+	background-color: transparent;
+	border: 5px solid white;
+	border-radius: 15px;
+	padding-left: 0.2em;
+	padding-right: 0.2em;
+	color: white;
+	text-align: center;
+	font-size: 5em;
+	
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10 and IE 11 */
+	user-select: none; /* Standard syntax */
+}
+.homeButton:hover{
+	background-color: white;
+	color: black;
+}
+#planetTitle{
+	color: white;
+	position: fixed;
+	right: 1vw;
+	top: 0px;
+	font-family: "Big Shoulders Stencil Text";
+	font-weight: bold;
+	font-size: 64px;
+}

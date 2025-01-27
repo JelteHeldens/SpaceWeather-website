@@ -20,9 +20,17 @@
 	</head>
 	<body onload="loadAPI()">
 		<canvas id="canvas"></canvas>
-		<div class="grid">
-			<div class="websiteTitle">
-				<a>SPACE WEATHER</a>
+		<div class="topLayer">
+			<div id="welcomeLayer">
+				<h1>SPACE WEATHER</h1>
+				<div class="welcomeDescription">
+					<a>Drag mouse to move around, click on a planet to investigate.</a>
+				</div>
+			</div>
+			<div id="homeButton"></div>
+			<div id="planetWeather">
+				<div id="planetTitle"></div>
+				<div id="planetDescription"></div>
 			</div>
 		</div>
 		<script type="module" src="/main.js"></script>
