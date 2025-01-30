@@ -25,6 +25,8 @@ The sun has a different scale than the planets:
 
 - radius in km/200000
 
+Planets rotate at a speed relative to earth. (For simplicity they all rotate around the y-axis)
+
 ## Installation
 
 The weather on Mars is gathered from [NASA's InSight API](https://api.nasa.gov/). To make this work, simply create your own NASA API Key and paste it into API-KEY.txt
