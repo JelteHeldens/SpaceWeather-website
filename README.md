@@ -3,7 +3,7 @@
 ![image](https://github.com/user-attachments/assets/a409b5c4-74fe-4435-bbba-842476d03ca1)
 
 Space Weather is a web browser application made to experiment with Three.js. It includes a basic model of our solar system with rotating and interactable planets.
-When clicked on a planet, the user will receive information about the average temperature, in the case of planet Mars, this info is gathered using NASA's InSight API.
+When clicking on a planet, the user will receive information about the average temperature, in the case of planet Mars, this info is gathered using NASA's InSight API.
 It's this API that inspired this small project.
 
 
@@ -26,6 +26,8 @@ The sun has a different scale than the planets:
 - radius in km/200000
 
 ## Installation
+
+The weather on Mars is gathered from [NASA's InSight API](https://api.nasa.gov/). To make this work, simply create your own NASA API Key and paste it into API-KEY.txt
 
 After downloading this repo, simply enter the folder and execute the following command:
 
