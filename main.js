@@ -13,17 +13,14 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize( window.innerWidth, window.innerHeight );
 window.addEventListener( 'resize', onWindowResize, false );
 function onWindowResize(){
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize( window.innerWidth, window.innerHeight );
-
 }
 const controls = new OrbitControls( camera, renderer.domElement );
 var welcomeText = true;
 var buttonOFF = true;
-var planetDiv = document.getElementById("planetWeather");
+var planetDiv = document.getElementById("planet");
 
 // ========== CAMERA POSITION ==========
 const homeX = 0.64;
@@ -35,12 +32,10 @@ const targetZ = 10.9;
 
 camera.position.set(homeX,homeY,homeZ);
 controls.target.set(targetX,targetY,targetZ);
-//controls.target = new THREE.Vector3(9,1,2);
-//camera.lookAt(9,1,2);
 
 function resetCamera(){
 	homeButton.innerHTML = ``;
-	planetDiv.innerHTML =`<div id="planetWeather"><div id="planetTitle"></div><div id="planetDescription"></div></div>`;
+	planetDiv.innerHTML =``;
 	buttonOFF = true;
 	camera.position.set(homeX,homeY,homeZ);
 	controls.target.set(targetX,targetY,targetZ);
@@ -81,7 +76,7 @@ function createOrbit(radius){
 	const arcMaterial = new THREE.MeshBasicMaterial( { color: 0xBCBCBC, side: THREE.DoubleSide} );
 	const arc = new THREE.Mesh( arcGeometry, arcMaterial );
 	arc.material.transparent = true;
-	arc.material.opacity = 0.02;
+	arc.material.opacity = 0.04;
 	arc.rotation.set(Math.PI / 2, 0, 0);
 
 	return arc;
@@ -129,7 +124,7 @@ scene.add( marsArc );
 
 //	JUPITER: source: https://www.solarsystemscope.com/textures/
 const jupiter = createPlanet('jupyter', 69911, 780);
-jupiter.name = "JUPYTER";
+jupiter.name = "JUPITER";
 planets.add(jupiter);
 const jupiterArc = createOrbit(780);
 scene.add( jupiterArc );
@@ -235,7 +230,6 @@ function onMouseDown(event) {
 	const intersections = raycaster.intersectObjects(scene.children, true);
 	if (intersections.length > 0 && buttonOFF) {
 		const selectedObject = intersections[0].object;
-		//console.log(selectedObject);
 		
 		//	Camera wijzigen van locatie en target
 		controls.target.set(selectedObject.position.x+selectedObject.geometry.parameters.radius/1.8, selectedObject.position.y, selectedObject.position.z+selectedObject.geometry.parameters.radius/1.4);
@@ -247,10 +241,91 @@ function onMouseDown(event) {
 		//	UPDATE HTML:
 		var homeButton = document.getElementById("homeButton");
 		homeButton.innerHTML = `<button class="homeButton"><</button>`;
-		document.getElementById("planetTitle").innerHTML = `<h1>`+selectedObject.name+` WEATHER</h1>`;
+		document.getElementById("planet").innerHTML = `<div id="planetWeather">
+				<div id="planetTitle"><h1>`+selectedObject.name+` WEATHER</h1></div>
+				<div id="planetDescription"></div>
+			</div>`;
 		buttonOFF = false;
 		homeButton.addEventListener("click", resetCamera);
+		
+		if (selectedObject.name == 'MARS'){
+			getAPIurl();
+		}
+		else if (selectedObject.name == 'SUN'){
+			document.getElementById("planetDescription").innerHTML =`<a>Very hot.</a><br><br><br><a id='bottomText'>*No existing API available.</a><br>`;
+		}
+		else if (selectedObject.name == 'MERCURY'){
+			document.getElementById("planetDescription").innerHTML =`<a>Average temperature ~167°C</a><br><br>
+			<a>Mercury is our closest planet to the sun.<br>It has no atmosphere, so temperatures vary between 430°C and -180°C </a><br><br>
+			<br><a id='bottomText'>*No existing API available.</a><br>`;
+		}
+		else if (selectedObject.name == 'VENUS'){
+			document.getElementById("planetDescription").innerHTML =`<a>Average temperature ~464°C</a><br><br>
+			<a>Venus is the hottest planet in our solar system.<br>Its dense atmosphere acts as a greenhouse </a><br><br>
+			<br><a id='bottomText'>*No existing API available.</a><br>`;
+		}
+		else if (selectedObject.name == 'EARTH'){
+			document.getElementById("planetDescription").innerHTML =`<a>Average temperature ~15°C</a><br><br>
+			<a>Many weather API's exist to gather temperatures on earth,<br> but i want to put our other planets in the spotlight :)</a><br><br>
+			<br><a id='bottomText'>*API's exist, earth is not the focus here.</a><br>`;
+		}
+		else if (selectedObject.name == 'JUPITER'){
+			document.getElementById("planetDescription").innerHTML =`<a>Average temperature ~-110°C</a><br><br>
+			<a>Fun fact:<br>Jupiter has the shortest day in the solar system at 10 hours.</a><br><br>
+			<br><a id='bottomText'>*No existing API available.</a><br>`;
+		}
+		else if (selectedObject.name == 'SATURN'){
+			document.getElementById("planetDescription").innerHTML =`<a>Average temperature ~-140°C</a><br><br>
+			<a>Fun fact:<br>Saturn has a hexagon-shaped north pole.</a><br><br>
+			<br><a id='bottomText'>*No existing API available.</a><br>`;
+		}
+		else if (selectedObject.name == 'URANUS'){
+			document.getElementById("planetDescription").innerHTML =`<a>Average temperature ~-195°C</a><br><br>
+			<a>Fun fact:<br>Uranus rotates at a nearly 90-degree angle from the plane of its orbit.</a><br><br>
+			<br><a id='bottomText'>*No existing API available.</a><br>`;
+		}
+		else if (selectedObject.name == 'NEPTUNE'){
+			document.getElementById("planetDescription").innerHTML =`<a>Average temperature ~-200°C</a><br><br>
+			<a>Fun fact:<br>In 2011, Neptune completed its first 165-year orbit of the Sun since its discovery.</a><br><br>
+			<br><a id='bottomText'>*No existing API available.</a><br>`;
+		}
 	}
+}
+
+// ========== MARS API CALL ==========
+//	Put your own API key in API-KEY.txt :)
+function getAPIurl(){
+	fetch("API-KEY.txt")
+	.then((res) => res.text())
+	.then((text) => {
+		loadMarsAPI('https://api.nasa.gov/insight_weather/?api_key='+text+'&feedtype=json&ver=1.0');
+	})
+	.catch((e) => console.error(e));
+}
+
+function loadMarsAPI(url){
+	fetch(url)
+	.then(res => res.json())
+	.then(out => updateMars(out))
+	.catch(err => console.log(err));
+}
+
+function updateMars(data){
+	//console.log(data);
+	let avSUM = 0;
+	let c = 0;
+	try {
+		for (let key in data) {
+			let av = data[key].AT.av;
+			avSUM += av;
+			c+=1;
+			console.log(`Key: ${key}, AT average: ${av}`);
+		}
+	} catch (error) {
+		console.warn("An error occurred, but it was ignored:", error);
+	}
+	document.getElementById("planetDescription").innerHTML =`<a> Average surface temperature = `+(((avSUM/c)-32)*(5/9)).toFixed(1)+`°C</a>
+	<br><br><br><a id='bottomText'>*Data is gathered from Nasa InSight API.</a><br>`;
 }
 
 // ========== ANIMATION LOOP ==========
